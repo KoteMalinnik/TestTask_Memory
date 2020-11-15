@@ -30,6 +30,8 @@ namespace Cards
         
         public Card[] Generate()
         {
+            Log.Message($"Генерация объектов {typeof(Card)}");
+
             //проверка совпадения количества текстур с количеством колод
             if (imagesSet.Length != cardDeckCount)
             {
@@ -69,6 +71,8 @@ namespace Cards
                     }
                 }
             }
+
+            Log.Message($"Генерация завершена");
 
             return cards.ToArray();
         }
