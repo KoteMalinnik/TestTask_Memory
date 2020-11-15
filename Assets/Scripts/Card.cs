@@ -20,7 +20,7 @@ public class Card : MonoBehaviour
 
     private bool IsOpen { get; set; } = false;
 
-    //TODO: публичный элемент для сравнения изображений карт
+    public string ImageName => imageRenderer?.sharedMaterial?.mainTexture?.name ?? "NotDefined";
 
     #endregion
 
@@ -28,6 +28,7 @@ public class Card : MonoBehaviour
 
     private void Awake()
     {
+        //установка начального вращения на случай, если префаб забудут повернуть на 90 градусов по оси X
         transform.localRotation = Quaternion.Euler(90, 0, 0);
     }
 
@@ -35,7 +36,7 @@ public class Card : MonoBehaviour
     {
         Log.Message($"Нажатие на карту {name}");
 
-        if (IsOpen == false)
+        if (IsOpen == false) //открытие карты игроком должно происходить только один раз
         {
             Show();
         }
@@ -45,19 +46,17 @@ public class Card : MonoBehaviour
 
     #region Public Methods
 
-    public void SetImageMaterial(Material material)
+    public void SetImage(Texture texture)
     {
-        if (material == null)
+        if (texture == null)
         {
-            Log.Error($"Материал карты {name} не определен");
+            Log.Error("Текстура не определена");
             return;
         }
 
-        Log.Message($"Установка материала карты {name}. Материал: {material.name}");
+        Log.Message($"Установка текстуры карты {name}. Текстура: {texture.name}");
 
-        //TODO: присвоение публичного элемента для сравнения карт
-
-        imageRenderer.sharedMaterial = material;
+        imageRenderer.sharedMaterial.mainTexture = texture;
     }
 
     public void Show()
