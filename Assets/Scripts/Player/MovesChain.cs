@@ -81,6 +81,7 @@ namespace Player
             {
                 Log.Message("Карты не совпадают");
 
+                opendedCards.Add(card); //необходимо добавить несовпавшую карту в список, чтобы при обработке события она закрылась
                 OnIncomplited?.Invoke(opendedCards.ToArray());
             }
         }
