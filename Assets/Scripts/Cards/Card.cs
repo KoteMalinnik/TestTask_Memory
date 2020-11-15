@@ -22,7 +22,7 @@ namespace Cards
 
         private bool IsOpen { get; set; } = false;
 
-        public string ImageName => imageRenderer?.sharedMaterial?.mainTexture?.name ?? "NotDefined";
+        public string DeckName => imageRenderer?.sharedMaterial?.mainTexture?.name ?? "NotDefined";
 
         #endregion
 
