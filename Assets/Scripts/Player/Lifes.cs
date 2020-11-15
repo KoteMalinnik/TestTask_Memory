@@ -7,7 +7,7 @@ namespace Player
         #region Events
 
         public static event Action OnRunOut = null; //жизни закончились
-        public static event Action<int> OnDecrease = null; //жизни уменьшились
+        public static event Action<int> OnChanged = null; //количество жизней изменилось
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace Player
             Log.Message($"Уменшьение количества жизней ({Value}) -> ({Value - 1})");
 
             Value--;
-            OnDecrease?.Invoke(Value);
+            OnChanged?.Invoke(Value);
 
             if (Value == 0)
             {
