@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3257666531356344308}
   - component: {fileID: 3257666531356344307}
   m_Layer: 0
-  m_Name: UpSide
+  m_Name: Skin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 3257666531823504063}
   - component: {fileID: 3257666531823504061}
   m_Layer: 0
-  m_Name: DownSide
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
