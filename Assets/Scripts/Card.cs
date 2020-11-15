@@ -26,6 +26,11 @@ public class Card : MonoBehaviour
 
     #region MonoBehaviour Callbacks
 
+    private void Awake()
+    {
+        transform.localRotation = Quaternion.Euler(90, 0, 0);
+    }
+
     private void OnMouseDown()
     {
         Log.Message($"Нажатие на карту {name}");
@@ -81,9 +86,7 @@ public class Card : MonoBehaviour
     {
         Log.Message($"Переворот карты {this.name}. Открытое состояние: {openState}");
 
-        //TODO: логика переворота карты
-
-        transform.localRotation = Quaternion.Euler(0, 0, 0);
+        transform.localRotation *= Quaternion.Euler(180, 0, 0);
 
         IsOpen = openState;
     }
