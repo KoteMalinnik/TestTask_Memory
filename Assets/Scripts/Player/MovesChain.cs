@@ -11,7 +11,7 @@ namespace Player
         public static event Action<Card[]> OnCompleted = null; //цепочка успешна завершена
         public static event Action<Card[]> OnIncomplited = null; //цепочка не завершилась (несовпадение)
         
-        public event Action OnMatch = null; //успешное добавление карты в цепочку
+        public static event Action OnMatch = null; //успешное добавление карты в цепочку
 
         #endregion
 
