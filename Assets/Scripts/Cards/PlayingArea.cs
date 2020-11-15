@@ -1,12 +1,34 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 using Player;
 
 namespace Cards
 {
+    [RequireComponent(typeof(CardObjectsGenerator))]
     public class PlayingArea : MonoBehaviour //контроль поведения открытых игроком карт
     {
+        #region Events
+
+        public static event Action OnBecameEmpty = null;
+
+        #endregion
+
+        #region Properties
+
+        List<Card> cardsAtPlayingArea = null;
+
+        #endregion
+
         #region MonoBehaviour Callbacks
+
+        private void Awake()
+        {
+            Card[] generatedCards = GetComponent<CardObjectsGenerator>().Generate();
+
+            cardsAtPlayingArea = new List<Card>();
+            cardsAtPlayingArea.AddRange(generatedCards);
+        }
 
         private void OnEnable()
         {
@@ -30,7 +52,16 @@ namespace Cards
 
             for (int i = 0; i < cards.Length; i++)
             {
+                cardsAtPlayingArea.Remove(cards[i]);
+
                 Destroy(cards[i].gameObject); //Удаление карты с игрового поля
+            }
+
+            if (cardsAtPlayingArea.Count == 0)
+            {
+                Log.Message("Карт на игровом поле больше нет");
+
+                OnBecameEmpty?.Invoke();
             }
         }
 
