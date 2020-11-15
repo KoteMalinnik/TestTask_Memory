@@ -29,7 +29,7 @@ public class Card : MonoBehaviour
     private void Awake()
     {
         //установка начального вращения на случай, если префаб забудут повернуть на 90 градусов по оси X
-        transform.localRotation = Quaternion.Euler(90, 0, 0);
+        FlipOver(openState: false);
     }
 
     private void OnMouseDown()
@@ -85,7 +85,8 @@ public class Card : MonoBehaviour
     {
         Log.Message($"Переворот карты {this.name}. Открытое состояние: {openState}");
 
-        transform.localRotation *= Quaternion.Euler(180, 0, 0);
+        float targetAngle = openState == true ? 270 : 90;
+        transform.localRotation = Quaternion.Euler(targetAngle, 0, 0);
 
         IsOpen = openState;
     }
