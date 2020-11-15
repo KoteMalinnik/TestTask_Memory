@@ -6,7 +6,6 @@ namespace Player
     {
         #region Events
 
-        public static event Action OnRunOut = null; //жизни закончились
         public static event Action<int> OnChanged = null; //количество жизней изменилось
 
         #endregion
@@ -53,7 +52,7 @@ namespace Player
             {
                 Log.Message("Жизни закончились");
 
-                OnRunOut?.Invoke();
+                GameOverStatements.EnteLossState();
             }
         }
 
