@@ -20,6 +20,7 @@ public class CardObjectsGenerator : MonoBehaviour
 
     [Header("Текстуры карт")]
     [SerializeField] private CardImagesSet imagesSet = null; //сет текстур для карт
+    [SerializeField] private Material imageMaterial = null; //материал с текстурой
 
     #endregion
 
@@ -56,9 +57,17 @@ public class CardObjectsGenerator : MonoBehaviour
         List<Card> cards = new List<Card>();
         for (int deskNumber = 0; deskNumber < cardDeckCount; deskNumber++)
         {
+            Material material = new Material(imageMaterial);
+            material.mainTexture = imagesSet.GetImage(deskNumber);
+
             for (int cardNumber = 0; cardNumber < cardDeckCapacity; cardNumber++)
             {
-                Card item = InstantiateCard(spawnPositions, deskNumber, cardNumber);
+                //выбираем случайное значение из индекса позиций и удаляем его из списка
+                int index = UnityEngine.Random.Range(0, spawnPositions.Count);
+                Vector3 spawnPosition = spawnPositions[index];
+                spawnPositions.RemoveAt(index);
+
+                Card item = CreateCard(material, spawnPosition, deskNumber, cardNumber);
                 cards.Add(item);
             }
         }
@@ -95,19 +104,11 @@ public class CardObjectsGenerator : MonoBehaviour
         return spawnPositions;
     }
 
-    private Card InstantiateCard(List<Vector3> spawnPositions, int deskNumber, int cardNumber)
+    private Card CreateCard(Material imageMaterial, Vector3 spawnPosition, int deskNumber, int cardNumber)
     {
-        //выбираем случайное значение из индекса позиций и удаляем его из списка
-        int index = UnityEngine.Random.Range(0, spawnPositions.Count);
-        Vector3 spawnPosition = spawnPositions[index];
-        spawnPositions.RemoveAt(index);
-
         Card card = GameObject.Instantiate(cardPrefab, spawnPosition, Quaternion.identity, cardParentTransform);
-
-        Texture texture = imagesSet.GetImage(deskNumber);
-        card.SetImage(texture);
-
-        card.name = $"Card-{cardNumber}-{texture.name}";
+        card.SetMaterial(imageMaterial);
+        card.name = $"Card-{cardNumber}-{imageMaterial.mainTexture.name}";
 
         return card;
     }

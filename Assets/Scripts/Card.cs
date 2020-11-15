@@ -46,17 +46,18 @@ public class Card : MonoBehaviour
 
     #region Public Methods
 
-    public void SetImage(Texture texture)
+    public void SetMaterial(Material material)
     {
-        if (texture == null)
+        if (material == null)
         {
-            Log.Error("Текстура не определена");
+            Log.Error("Материал не определена");
             return;
         }
 
-        Log.Message($"Установка текстуры карты {name}. Текстура: {texture.name}");
+        Log.Message($"Установка материала карты {name}. Текстура: {material.mainTexture.name}");
 
-        imageRenderer.sharedMaterial.mainTexture = texture;
+        //imageRenderer.sharedMaterial.mainTexture = texture;
+        imageRenderer.material = material;
     }
 
     public void Show()
@@ -83,8 +84,6 @@ public class Card : MonoBehaviour
 
     private void FlipOver(bool openState)
     {
-        Log.Message($"Переворот карты {this.name}. Открытое состояние: {openState}");
-
         float targetAngle = openState == true ? 270 : 90;
         transform.localRotation = Quaternion.Euler(targetAngle, 0, 0);
 
