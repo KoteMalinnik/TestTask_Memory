@@ -8,12 +8,6 @@ namespace Cards
     [RequireComponent(typeof(CardObjectsGenerator))]
     public class PlayingArea : MonoBehaviour //контроль поведения открытых игроком карт
     {
-        #region Events
-
-        public static event Action OnBecameEmpty = null;
-
-        #endregion
-
         #region Properties
 
         List<Card> cardsAtPlayingArea = null;
@@ -61,7 +55,7 @@ namespace Cards
             {
                 Log.Message("Карт на игровом поле больше нет");
 
-                OnBecameEmpty?.Invoke();
+                GameOverStatements.EnterVictoryState();
             }
         }
 
