@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using Player;
 
 namespace Cards
@@ -7,6 +8,13 @@ namespace Cards
     [RequireComponent(typeof(CardObjectsGenerator))]
     public class PlayingArea : MonoBehaviour //контроль поведения открытых игроком карт
     {
+        #region Serialize Fields
+
+        [Range(0, 5)]
+        [SerializeField] private float pauseDuration = 3.0f;
+
+        #endregion
+
         #region Properties
 
         List<Card> cardsAtPlayingArea = null;
@@ -21,6 +29,8 @@ namespace Cards
 
             cardsAtPlayingArea = new List<Card>();
             cardsAtPlayingArea.AddRange(generatedCards);
+
+            ShowAllCards();
         }
 
         private void OnEnable()
@@ -33,6 +43,33 @@ namespace Cards
         {
             MovesChain.OnCompleted -= MovesChainCompletedEventHandler;
             MovesChain.OnIncomplited -= MovesChainIncompletedEventHandler;
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void ShowAllCards()
+        {
+            IEnumerator RotateAll()
+            {
+                for (int i = 0; i < cardsAtPlayingArea.Count; i++)
+                {
+                    cardsAtPlayingArea[i].Show(silently: true);
+                }
+
+                yield return new WaitForSeconds(pauseDuration);
+
+                for (int i = 0; i < cardsAtPlayingArea.Count; i++)
+                {
+                    cardsAtPlayingArea[i].Hide();
+                }
+
+                yield return null;
+            }
+
+            CommonCoroutine routine = new CommonCoroutine(this, RotateAll);
+            routine.Start();
         }
 
         #endregion

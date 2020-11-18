@@ -53,15 +53,21 @@ namespace Cards
 
             Log.Message($"Установка материала карты {name}. Текстура: {material.mainTexture.name}");
 
-            //imageRenderer.sharedMaterial.mainTexture = texture;
             imageRenderer.material = material;
         }
 
-        public void Show()
+        public void Show(bool silently = false)
         {
             Log.Message($"Открытие карты {name}");
 
-            Flip(true, () => OnShowed?.Invoke(this));
+            if (silently == true)
+            {
+                Flip(true, null);
+            }
+            else
+            {
+                Flip(true, () => OnShowed?.Invoke(this));
+            }
         }
 
         public void Hide()
