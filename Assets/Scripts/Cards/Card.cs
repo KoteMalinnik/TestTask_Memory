@@ -56,17 +56,17 @@ namespace Cards
             imageRenderer.material = material;
         }
 
-        public void Show(bool silently = false)
+        public void Show(bool publishEvent = true)
         {
             Log.Message($"Открытие карты {name}");
 
-            if (silently == true)
+            if (publishEvent == true)
             {
-                Flip(true, null);
+                Flip(true, () => OnShowed?.Invoke(this));
             }
             else
             {
-                Flip(true, () => OnShowed?.Invoke(this));
+                Flip(true, null);
             }
         }
 
