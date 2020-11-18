@@ -11,7 +11,9 @@ namespace Cards
         #region Serialize Fields
 
         [Range(0, 5)]
-        [SerializeField] private float pauseDuration = 3.0f;
+        [SerializeField] private float startPauseDuration = 3.0f;
+        [Range(0, 5)]
+        [SerializeField] private float delayBeforeHidingCards = 1.0f;
 
         #endregion
 
@@ -49,7 +51,7 @@ namespace Cards
 
         public void ShowAllCardsDelayed()
         {
-            DelayCoroutine delayCoroutine = new DelayCoroutine(this, HideAll, pauseDuration);
+            DelayCoroutine delayCoroutine = new DelayCoroutine(this, HideAll, startPauseDuration);
 
             ShowAll();
             delayCoroutine.Start();
@@ -102,10 +104,19 @@ namespace Cards
         {
             Log.Message("Обработка события неуспешного завершения цепочки ходов");
 
-            for (int i = 0; i < cards.Length; i++)
-            {
-                cards[i].Hide(); //переворачивание карты рубашкой вверх
-            }
+            Card.Block();
+
+            DelayCoroutine delayRoutine = new DelayCoroutine(this, () =>
+                {
+                    for (int i = 0; i < cards.Length; i++)
+                    {
+                        cards[i].Hide(); //переворачивание карты рубашкой вверх
+                    }
+
+                    Card.Unblock();
+                }, delayBeforeHidingCards);
+
+            delayRoutine.Start();
         }
 
         #endregion
