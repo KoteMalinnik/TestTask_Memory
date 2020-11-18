@@ -29,8 +29,6 @@ namespace Cards
 
             cardsAtPlayingArea = new List<Card>();
             cardsAtPlayingArea.AddRange(generatedCards);
-
-            ShowAllCards();
         }
 
         private void OnEnable()
@@ -49,27 +47,32 @@ namespace Cards
 
         #region Public Methods
 
-        public void ShowAllCards()
+        public void ShowAllCardsDelayed()
         {
-            IEnumerator RotateAll()
+            DelayCoroutine delayCoroutine = new DelayCoroutine(this, HideAll, pauseDuration);
+
+            ShowAll();
+            delayCoroutine.Start();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void ShowAll()
+        {
+            for (int i = 0; i < cardsAtPlayingArea.Count; i++)
             {
-                for (int i = 0; i < cardsAtPlayingArea.Count; i++)
-                {
-                    cardsAtPlayingArea[i].Show(silently: true);
-                }
-
-                yield return new WaitForSeconds(pauseDuration);
-
-                for (int i = 0; i < cardsAtPlayingArea.Count; i++)
-                {
-                    cardsAtPlayingArea[i].Hide();
-                }
-
-                yield return null;
+                cardsAtPlayingArea[i].Show(publishEvent: false);
             }
+        }
 
-            CommonCoroutine routine = new CommonCoroutine(this, RotateAll);
-            routine.Start();
+        private void HideAll()
+        {
+            for (int i = 0; i < cardsAtPlayingArea.Count; i++)
+            {
+                cardsAtPlayingArea[i].Hide();
+            }
         }
 
         #endregion
