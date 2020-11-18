@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using Player;
 
 namespace Cards
@@ -19,7 +18,7 @@ namespace Cards
 
         #region Properties
 
-        List<Card> cardsAtPlayingArea = null;
+        private List<Card> CardsAtPlayingArea { get; } = new List<Card>();
 
         #endregion
 
@@ -28,9 +27,12 @@ namespace Cards
         private void Awake()
         {
             Card[] generatedCards = GetComponent<CardObjectsGenerator>().Generate();
+            CardsAtPlayingArea.AddRange(generatedCards);
+        }
 
-            cardsAtPlayingArea = new List<Card>();
-            cardsAtPlayingArea.AddRange(generatedCards);
+        private void Start()
+        {
+            ShowAllCardsDelayed();
         }
 
         private void OnEnable()
@@ -63,17 +65,17 @@ namespace Cards
 
         private void ShowAll()
         {
-            for (int i = 0; i < cardsAtPlayingArea.Count; i++)
+            for (int i = 0; i < CardsAtPlayingArea.Count; i++)
             {
-                cardsAtPlayingArea[i].Show(publishEvent: false);
+                CardsAtPlayingArea[i].Show(publishEvent: false);
             }
         }
 
         private void HideAll()
         {
-            for (int i = 0; i < cardsAtPlayingArea.Count; i++)
+            for (int i = 0; i < CardsAtPlayingArea.Count; i++)
             {
-                cardsAtPlayingArea[i].Hide();
+                CardsAtPlayingArea[i].Hide();
             }
         }
 
@@ -87,12 +89,12 @@ namespace Cards
 
             for (int i = 0; i < cards.Length; i++)
             {
-                cardsAtPlayingArea.Remove(cards[i]);
+                CardsAtPlayingArea.Remove(cards[i]);
 
                 Destroy(cards[i].gameObject); //Удаление карты с игрового поля
             }
 
-            if (cardsAtPlayingArea.Count == 0)
+            if (CardsAtPlayingArea.Count == 0)
             {
                 Log.Message("Карт на игровом поле больше нет");
 
