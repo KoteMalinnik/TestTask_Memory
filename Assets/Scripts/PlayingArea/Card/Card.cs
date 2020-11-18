@@ -23,6 +23,7 @@ namespace Cards
         #region Properties
 
         private bool IsOpen { get; set; } = false;
+        private static bool ControlBlock { get; set; } = false; 
         public string DeckName => imageRenderer?.sharedMaterial?.mainTexture?.name ?? "NotDefined";
 
         #endregion
@@ -33,6 +34,13 @@ namespace Cards
         {
             Log.Message($"Нажатие на карту {name}");
 
+            if (ControlBlock == true)
+            {
+                Log.Message("Карта заблокирована");
+
+                return;
+            }
+
             if (IsOpen == false) //открытие карты игроком должно происходить только один раз
             {
                 Show();
@@ -42,6 +50,13 @@ namespace Cards
         #endregion
 
         #region Public Methods
+
+        #region Static
+
+        public static void Block() => ControlBlock = true; //блокировка нажатия на карту
+        public static void Unblock() => ControlBlock = false; //разблокировака нажатия на карточку
+
+        #endregion
 
         public void SetMaterial(Material material)
         {
