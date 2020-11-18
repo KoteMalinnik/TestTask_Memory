@@ -16,24 +16,19 @@ public sealed class CommonCoroutine
     /// Действие, которое необходимо выполнить по завершению корутины.
     /// </summary>
     public event Action OnFinish = null;
-	
-    #endregion
 
-    #region Fields
-	
-    private Coroutine coroutine = null;
-	
     #endregion
 
     #region Properties
-	
-    private MonoBehaviour owner { get; } = null;
-    private Func<IEnumerator> routine { get; } = null;
+
+    public MonoBehaviour Owner { get; } = null;
+    private Coroutine Coroutine { get; set; } = null;
+    private Func<IEnumerator> Routine { get; } = null;
 
     /// <summary>
     /// Вернет true, если корутина в данный момент выполняется.
     /// </summary>
-    public bool isRunning => coroutine != null;
+    public bool IsRunning => Coroutine != null;
 	
     #endregion
 
@@ -43,8 +38,8 @@ public sealed class CommonCoroutine
     {
         if (owner == null || routine == null) throw new ArgumentNullException();
 
-        this.owner = owner;
-        this.routine = routine;
+        this.Owner = owner;
+        this.Routine = routine;
     }
 
 	#endregion
@@ -57,7 +52,7 @@ public sealed class CommonCoroutine
     public void Start()
     {
         Stop();
-        coroutine = owner.StartCoroutine(Process());
+        Coroutine = Owner.StartCoroutine(Process());
     }
 
     /// <summary>
@@ -65,10 +60,10 @@ public sealed class CommonCoroutine
     /// </summary>
     public void Stop()
     {
-        if (isRunning)
+        if (IsRunning)
         {
-            owner.StopCoroutine(coroutine);
-            coroutine = null;
+            Owner.StopCoroutine(Coroutine);
+            Coroutine = null;
         }
     }
 	
@@ -78,8 +73,8 @@ public sealed class CommonCoroutine
 
     private IEnumerator Process()
     {
-        yield return routine.Invoke();
-        coroutine = null;
+        yield return Routine.Invoke();
+        Coroutine = null;
 
         OnFinish?.Invoke();
     }
