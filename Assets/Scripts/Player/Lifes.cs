@@ -6,6 +6,7 @@ namespace Player
     {
         #region Events
 
+        public static event Action<int> OnInitialized = null;
         public static event Action<int> OnChanged = null; //количество жизней изменилось
 
         #endregion
@@ -30,6 +31,8 @@ namespace Player
             Log.Message($"Установка количества жизней: {initialLifesCount}");
 
             Value = initialLifesCount;
+
+            OnInitialized?.Invoke(Value);
         }
 
         #endregion

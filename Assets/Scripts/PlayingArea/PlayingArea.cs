@@ -30,11 +30,6 @@ namespace Cards
             CardsAtPlayingArea.AddRange(generatedCards);
         }
 
-        private void Start()
-        {
-            ShowAllCardsDelayed();
-        }
-
         private void OnEnable()
         {
             MovesChain.OnCompleted += MovesChainCompletedEventHandler;
