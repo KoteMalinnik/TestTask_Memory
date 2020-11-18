@@ -2,32 +2,32 @@
 using System.Collections;
 using System;
 
-public class CardFlipAnimation
+public class CardFlipCoroutine
 {
     #region Properties
     private float Speed { get; } = 1;
-    private CommonCoroutine rotateRoutine { get; set; } = null;
+    private CommonCoroutine RotateRoutine { get; set; } = null;
 
     #endregion
 
-    public CardFlipAnimation(MonoBehaviour owner, float speed, Action onFinish)
+    public CardFlipCoroutine(MonoBehaviour owner, float speed, Action onFinish)
     {
         Speed = speed;
 
-        rotateRoutine = new CommonCoroutine(owner, Rotation);
-        rotateRoutine.OnFinish += onFinish;
+        RotateRoutine = new CommonCoroutine(owner, Rotation);
+        RotateRoutine.OnFinish += onFinish;
     }
 
 	public void Play()
     {
-		Log.Message("Запуск корутины вращения");
-
-        rotateRoutine.Start();
+        RotateRoutine.Start();
     }
 
 	private IEnumerator Rotation()
     {
-        Transform transform = rotateRoutine.Owner.transform;
+        Log.Message($"Начало вращения объекта {RotateRoutine.Owner.name}");
+
+        Transform transform = RotateRoutine.Owner.transform;
 
         Quaternion statringRotation = transform.localRotation;
         Quaternion targetRotation = statringRotation * Quaternion.Euler(180, 0, 0);
@@ -41,6 +41,6 @@ public class CardFlipAnimation
 
         transform.localRotation = targetRotation;
 
-        yield return null;
+        Log.Message($"Конец вращения объекта {RotateRoutine.Owner.name}");
     }
 }
