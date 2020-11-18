@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class CardFlipCoroutine
+public class FlipoverCoroutine
 {
     #region Properties
     private float Speed { get; } = 1;
@@ -10,7 +10,7 @@ public class CardFlipCoroutine
 
     #endregion
 
-    public CardFlipCoroutine(MonoBehaviour owner, float speed, Action onFinish)
+    public FlipoverCoroutine(MonoBehaviour owner, float speed, Action onFinish)
     {
         Speed = speed;
 

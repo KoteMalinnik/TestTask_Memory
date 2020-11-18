@@ -87,7 +87,7 @@ namespace Cards
 
             float speed = openState == true ? flipAnimationSpeed : -flipAnimationSpeed;
 
-            CardFlipCoroutine flipAnimation = new CardFlipCoroutine(this, flipAnimationSpeed, onFinish);
+            FlipoverCoroutine flipAnimation = new FlipoverCoroutine(this, flipAnimationSpeed, onFinish);
             flipAnimation.Play();
         }
 
