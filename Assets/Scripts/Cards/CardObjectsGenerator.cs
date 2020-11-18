@@ -66,7 +66,7 @@ namespace Cards
                     Vector3 spawnPosition;
                     if (spawnPositions.TryGetPosition(out spawnPosition) == true)
                     {
-                        Card item = CreateCard(material, spawnPosition, deskNumber, cardNumber);
+                        Card item = CreateCard(material, spawnPosition, cardNumber);
                         cards.Add(item);
                     }
                 }
@@ -81,9 +81,9 @@ namespace Cards
 
         #region Private Methods
 
-        private Card CreateCard(Material imageMaterial, Vector3 spawnPosition, int deskNumber, int cardNumber)
+        private Card CreateCard(Material imageMaterial, Vector3 spawnPosition, int cardNumber)
         {
-            Card card = GameObject.Instantiate(cardPrefab, spawnPosition, Quaternion.identity, cardParentTransform);
+            Card card = GameObject.Instantiate(cardPrefab, spawnPosition, Quaternion.Euler(90, 0, 0), cardParentTransform);
             card.SetMaterial(imageMaterial);
             card.name = $"Card-{cardNumber}-{imageMaterial.mainTexture.name}";
 

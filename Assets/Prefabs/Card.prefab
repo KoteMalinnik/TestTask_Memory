@@ -128,6 +128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageRenderer: {fileID: 3257666531823504061}
+  flipAnimationSpeed: 5
+  pauseDuration: 1
 --- !u!64 &3257666531449629796
 MeshCollider:
   m_ObjectHideFlags: 0

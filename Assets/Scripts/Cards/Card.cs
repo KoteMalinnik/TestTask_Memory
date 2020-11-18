@@ -15,24 +15,19 @@ namespace Cards
         #region Serialized Fields
 
         [SerializeField] private MeshRenderer imageRenderer = null;
+        [Range(1, 10)]
+        [SerializeField] private float flipAnimationSpeed = 5.0f; //скорость анимации переворота
 
         #endregion
 
         #region Properties
 
         private bool IsOpen { get; set; } = false;
-
         public string DeckName => imageRenderer?.sharedMaterial?.mainTexture?.name ?? "NotDefined";
 
         #endregion
 
         #region MonoBehaviour Callbacks
-
-        private void Awake()
-        {
-            //установка начального вращения на случай, если префаб забудут повернуть на 90 градусов по оси X
-            FlipOver(openState: false);
-        }
 
         private void OnMouseDown()
         {
@@ -66,30 +61,28 @@ namespace Cards
         {
             Log.Message($"Открытие карты {name}");
 
-            FlipOver(true);
-
-            OnShowed?.Invoke(this);
+            Flip(true, () => OnShowed?.Invoke(this));
         }
 
         public void Hide()
         {
             Log.Message($"Закрытие карты {name}");
 
-            FlipOver(false);
-
-            OnHided?.Invoke(this);
+            Flip(false, () => OnHided?.Invoke(this));
         }
 
         #endregion
 
         #region Private Methods
 
-        private void FlipOver(bool openState)
+        private void Flip(bool openState, Action onFinish)
         {
-            float targetAngle = openState == true ? 270 : 90;
-            transform.localRotation = Quaternion.Euler(targetAngle, 0, 0);
+            onFinish += () => IsOpen = openState;
 
-            IsOpen = openState;
+            float speed = openState == true ? flipAnimationSpeed : -flipAnimationSpeed;
+
+            CardFlipAnimation flipAnimation = new CardFlipAnimation(this, flipAnimationSpeed, onFinish);
+            flipAnimation.Play();
         }
 
         #endregion
