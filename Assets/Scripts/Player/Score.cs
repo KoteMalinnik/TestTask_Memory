@@ -16,7 +16,7 @@ namespace Player
         private int Value { get; set; } = 0;
         private int Best { get; set; } = 0;
         
-        private string BestScoreKey => "BestScore";
+        public static string BestScoreKey => "BestScore";
 
         #endregion
 
