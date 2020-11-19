@@ -106,9 +106,13 @@ namespace Cards
             {
                 for (int i = 0; i < cards.Length; i++)
                 {
-                    CardsAtPlayingArea.Remove(cards[i]);
+                    Card card = cards[i];
 
-                    Destroy(cards[i].gameObject); //Удаление карты с игрового поля
+                    CardsAtPlayingArea.Remove(card);
+
+                    //Удаление карты с игрового поля
+                    SizeReductionCoroutine removeAnimation = new SizeReductionCoroutine(this, card, 5, () => Destroy(card.gameObject));
+                    removeAnimation.Play();
                 }
 
                 Card.Unblock();
