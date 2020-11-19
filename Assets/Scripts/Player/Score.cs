@@ -24,7 +24,8 @@ namespace Player
 
         public Score()
         {
-            LoadBestScore();
+            Value = 0;
+            Best = LoadBestScore();
         }
 
         #endregion
@@ -63,11 +64,7 @@ namespace Player
         }
             
         public void SaveBestScore() => Serialization.Save(BestScoreKey, Best);
-        public static int LoadBestScore()
-        {
-            Best = Serialization.Load(BestScoreKey, 0);
-            return Best;
-        }
+        public static int LoadBestScore() => Serialization.Load(BestScoreKey, 0);
 
         #endregion
     }
