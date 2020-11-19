@@ -35,6 +35,17 @@ namespace Cards
             Unblock();
         }
 
+#if UNITY_EDITOR == false
+        private void OnEnable()
+        {
+            AndroidInput.OnTouch += AndroidInputTouchEventHandler;
+        }
+
+        private void OnDisable()
+        {
+            AndroidInput.OnTouch -= AndroidInputTouchEventHandler;
+        }
+#else
         private void OnMouseDown()
         {
             Log.Message($"Нажатие на карту {name}");
@@ -51,6 +62,7 @@ namespace Cards
                 Show();
             }
         }
+#endif
 
         #endregion
 
@@ -61,7 +73,7 @@ namespace Cards
         public static void Block() => ControlBlock = true; //блокировка нажатия на карту
         public static void Unblock() => ControlBlock = false; //разблокировака нажатия на карточку
 
-        #endregion
+#endregion
 
         public void SetMaterial(Material material)
         {
@@ -97,7 +109,7 @@ namespace Cards
             Flip(false, () => OnHided?.Invoke(this));
         }
 
-        #endregion
+#endregion
 
         #region Private Methods
 
@@ -112,5 +124,30 @@ namespace Cards
         }
 
         #endregion
+
+#if UNITY_EDITOR == false
+        #region Event Handlers
+
+        private void AndroidInputTouchEventHandler(Collider collider)
+        {
+            if (collider.name.Equals(this.name) == false) return;
+
+            Log.Message($"Нажатие на карту {name}");
+
+            if (ControlBlock == true)
+            {
+                Log.Message("Карта заблокирована");
+
+                return;
+            }
+
+            if (IsOpen == false) //открытие карты игроком должно происходить только один раз
+            {
+                Show();
+            }
+        }
+
+        #endregion
+#endif
     }
 }
