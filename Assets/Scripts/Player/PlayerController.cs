@@ -116,6 +116,8 @@ namespace Player
             Log.Message("Обработка события успешного завершения цепочки ходов");
 
             Score.Increase(opened3cardsMultiplier * Lifes.Value); //увеличение счета игрока за 3 открытые карты
+
+            MovesChain = null;
         }
 
         private void MovesChainIncomplitedEventHanlder(Card[] e)

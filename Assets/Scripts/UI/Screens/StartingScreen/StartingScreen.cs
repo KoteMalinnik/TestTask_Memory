@@ -21,8 +21,6 @@ namespace UI.CustomScreen.StartingScreen
 
         private void OnEnable()
         {
-            PlayerPrefs.DeleteAll();
-
             bestScore.text = bestScoreLabel + Player.Score.LoadBestScore().ToString();
 
             play.onClick.AddListener(() => SceneManager.LoadSceneAsync(playingSceneID));
