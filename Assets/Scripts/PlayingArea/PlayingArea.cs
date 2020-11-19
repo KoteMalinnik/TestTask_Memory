@@ -34,6 +34,8 @@ namespace Cards
         {
             MovesChain.OnCompleted += MovesChainCompletedEventHandler;
             MovesChain.OnIncomplited += MovesChainIncompletedEventHandler;
+
+            GameOverStatements.OnLoss += GameOverLossStatementEventHandler;
         }
 
         private void OnDisable()
@@ -77,6 +79,13 @@ namespace Cards
         #endregion
 
         #region Event Handlers
+
+        private void GameOverLossStatementEventHandler() //отключаем игровое поле, чтобы игрок с ним не взаимодействовал
+        {
+            GameOverStatements.OnLoss -= GameOverLossStatementEventHandler;
+
+            gameObject.SetActive(false);
+        }
 
         private void MovesChainCompletedEventHandler(Card[] cards)
         {
