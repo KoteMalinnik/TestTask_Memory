@@ -268,7 +268,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 480, y: 800}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -328,8 +328,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenPrefabs:
   - {fileID: 223577016457709567, guid: 0080b55a4a2cd4941a7e78a785ee5009, type: 3}
+  - {fileID: 1819630011115633005, guid: ec977232931c8d741aa74739292d41b0, type: 3}
   screenTransform: {fileID: 837229839}
-  openOnAwake: 01000000
+  openOnAwake: 0100000002000000
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

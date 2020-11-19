@@ -13,8 +13,8 @@ namespace Player
 
         #region Properties
 
-        private int Value { get; set; } = 0;
-        private int Best { get; set; } = 0;
+        public static int Value { get; private set; } = 0;
+        public static int Best { get; private set; } = 0;
         
         public static string BestScoreKey => "BestScore";
 
@@ -63,7 +63,11 @@ namespace Player
         }
             
         public void SaveBestScore() => Serialization.Save(BestScoreKey, Best);
-        public void LoadBestScore() => Best = Serialization.Load(BestScoreKey, 0);
+        public static int LoadBestScore()
+        {
+            Best = Serialization.Load(BestScoreKey, 0);
+            return Best;
+        }
 
         #endregion
     }

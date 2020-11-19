@@ -6,6 +6,7 @@ public static class GameOverStatements //состояния конца игры 
 
     public static event Action OnVictory = null;
     public static event Action OnLoss = null;
+    public static event Action OnGameOver = null;
 
     #endregion
 
@@ -16,6 +17,7 @@ public static class GameOverStatements //состояния конца игры 
         Log.Message("Вход в состояние победы игрока");
 
         OnVictory?.Invoke();
+        OnGameOver?.Invoke();
     }
 
     public static void EnteLossState()
@@ -23,6 +25,7 @@ public static class GameOverStatements //состояния конца игры 
         Log.Message("Вход в состояние проигрыша игрока");
 
         OnLoss?.Invoke();
+        OnGameOver?.Invoke();
     }
 
     #endregion

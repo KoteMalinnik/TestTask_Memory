@@ -17,9 +17,9 @@ namespace Player
 
         #region Properties
 
-        private Lifes Lifes { get; set; } = null;
-        private Score Score { get; set; } = null;
-        private MovesChain MovesChain { get; set; } = null;
+        private static Lifes Lifes { get; set; } = null;
+        private static Score Score { get; set; } = null;
+        private static MovesChain MovesChain { get; set; } = null;
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace Player
             MovesChain.OnIncomplited += MovesChainIncomplitedEventHanlder;
             MovesChain.OnMatch += MovesChainMatchEventHandler;
 
-            GameOverStatements.OnVictory += VicoryEventHandler;
+            GameOverStatements.OnGameOver += GameOverStatementEventHandler;
         }
 
         private void OnDisable()
@@ -50,7 +50,7 @@ namespace Player
             MovesChain.OnIncomplited -= MovesChainIncomplitedEventHanlder;
             MovesChain.OnMatch -= MovesChainMatchEventHandler;
 
-            GameOverStatements.OnVictory -= VicoryEventHandler;
+            GameOverStatements.OnGameOver -= GameOverStatementEventHandler;
         }
 
         private void OnApplicationQuit()
@@ -76,9 +76,9 @@ namespace Player
 
         #region Event Handlers
 
-        private void VicoryEventHandler()
+        private void GameOverStatementEventHandler()
         {
-            Log.Message("Обработка события победы игрока");
+            Log.Message("Обработка события конца игры");
 
             UpdateBestScore();
         }
