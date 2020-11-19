@@ -36,6 +36,8 @@ namespace Cards
 
         private IEnumerator Start()
         {
+            Card.Block();
+
             yield return new WaitForSeconds(prepareDelay);
 
             ShowAll();
@@ -43,6 +45,10 @@ namespace Cards
             yield return new WaitForSeconds(showAllDelay);
 
             HideAll();
+
+            yield return new WaitForSeconds(1.0f); //защита от "дребезга", чтобы игрок не взаимодействовал с картами еще некоторое время
+
+            Card.Unblock();
         }
 
         private void OnEnable()
