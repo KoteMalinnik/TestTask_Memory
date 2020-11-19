@@ -55,8 +55,6 @@ namespace Cards
         {
             MovesChain.OnCompleted += MovesChainCompletedEventHandler;
             MovesChain.OnIncomplited += MovesChainIncompletedEventHandler;
-
-            GameOverStatements.OnLoss += GameOverLossStatementEventHandler;
         }
 
         private void OnDisable()
@@ -85,16 +83,19 @@ namespace Cards
             }
         }
 
+        private void DestroyAll()
+        {
+            for (int i = 0; i < CardsAtPlayingArea.Count; i++)
+            {
+                Destroy(CardsAtPlayingArea[i].gameObject);
+            }
+
+            CardsAtPlayingArea.Clear();
+        }
+
         #endregion
 
         #region Event Handlers
-
-        private void GameOverLossStatementEventHandler() //отключаем игровое поле, чтобы игрок с ним не взаимодействовал
-        {
-            GameOverStatements.OnLoss -= GameOverLossStatementEventHandler;
-
-            gameObject.SetActive(false);
-        }
 
         private void MovesChainCompletedEventHandler(Card[] cards)
         {
@@ -121,6 +122,7 @@ namespace Cards
                 {
                     Log.Message("Карт на игровом поле больше нет");
 
+                    DestroyAll();
                     GameOverStatements.EnterVictoryState();
                 }
             }, delayBeforeHidingCards);
@@ -147,6 +149,7 @@ namespace Cards
                     {
                         Log.Message("Жизни закончились");
 
+                        DestroyAll();
                         GameOverStatements.EnterLossState();
                     }
                 }, delayBeforeHidingCards);
