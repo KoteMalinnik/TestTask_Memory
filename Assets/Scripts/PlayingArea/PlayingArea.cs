@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using Player;
 
 namespace Cards
@@ -10,9 +11,12 @@ namespace Cards
         #region Serialize Fields
 
         [Range(0, 5)]
-        [SerializeField] private float startPauseDuration = 3.0f;
+        [SerializeField] private float prepareDelay = 1.0f; //задержка до показа всех карт
         [Range(0, 5)]
-        [SerializeField] private float delayBeforeHidingCards = 1.0f;
+        [SerializeField] private float showAllDelay = 3.0f; //длительность показа всех карт
+        [Space]
+        [Range(0, 5)]
+        [SerializeField] private float delayBeforeHidingCards = 1.0f; //задержка после завершения цепочки ходов перед закрытием карты
 
         #endregion
 
@@ -30,6 +34,17 @@ namespace Cards
             CardsAtPlayingArea.AddRange(generatedCards);
         }
 
+        private IEnumerator Start()
+        {
+            yield return new WaitForSeconds(prepareDelay);
+
+            ShowAll();
+
+            yield return new WaitForSeconds(showAllDelay);
+
+            HideAll();
+        }
+
         private void OnEnable()
         {
             MovesChain.OnCompleted += MovesChainCompletedEventHandler;
@@ -42,18 +57,6 @@ namespace Cards
         {
             MovesChain.OnCompleted -= MovesChainCompletedEventHandler;
             MovesChain.OnIncomplited -= MovesChainIncompletedEventHandler;
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public void ShowAllCardsDelayed()
-        {
-            DelayCoroutine delayCoroutine = new DelayCoroutine(this, HideAll, startPauseDuration);
-
-            ShowAll();
-            delayCoroutine.Start();
         }
 
         #endregion
