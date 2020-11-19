@@ -30,6 +30,11 @@ namespace Cards
 
         #region MonoBehaviour Callbacks
 
+        private void Awake()
+        {
+            Unblock();
+        }
+
         private void OnMouseDown()
         {
             Log.Message($"Нажатие на карту {name}");
