@@ -13,7 +13,7 @@ namespace Player
 
         #region Properties
 
-        public int Value { get; private set; } = 0;
+        public static int Value { get; private set; } = 0;
 
         #endregion
 
@@ -50,13 +50,6 @@ namespace Player
 
             Value--;
             OnChanged?.Invoke(Value);
-
-            if (Value == 0)
-            {
-                Log.Message("Жизни закончились");
-
-                GameOverStatements.EnteLossState();
-            }
         }
 
         #endregion

@@ -20,7 +20,7 @@ public static class GameOverStatements //состояния конца игры 
         OnGameOver?.Invoke();
     }
 
-    public static void EnteLossState()
+    public static void EnterLossState()
     {
         Log.Message("Вход в состояние проигрыша игрока");
 

@@ -91,19 +91,28 @@ namespace Cards
         {
             Log.Message("Обработка события успешного завершения цепочки ходов");
 
-            for (int i = 0; i < cards.Length; i++)
+            Card.Block();
+
+            DelayCoroutine delayRoutine = new DelayCoroutine(this, () =>
             {
-                CardsAtPlayingArea.Remove(cards[i]);
+                for (int i = 0; i < cards.Length; i++)
+                {
+                    CardsAtPlayingArea.Remove(cards[i]);
 
-                Destroy(cards[i].gameObject); //Удаление карты с игрового поля
-            }
+                    Destroy(cards[i].gameObject); //Удаление карты с игрового поля
+                }
 
-            if (CardsAtPlayingArea.Count == 0)
-            {
-                Log.Message("Карт на игровом поле больше нет");
+                Card.Unblock();
 
-                GameOverStatements.EnterVictoryState();
-            }
+                if (CardsAtPlayingArea.Count == 0)
+                {
+                    Log.Message("Карт на игровом поле больше нет");
+
+                    GameOverStatements.EnterVictoryState();
+                }
+            }, delayBeforeHidingCards);
+
+            delayRoutine.Start();
         }
 
         private void MovesChainIncompletedEventHandler(Card[] cards)
@@ -120,6 +129,13 @@ namespace Cards
                     }
 
                     Card.Unblock();
+
+                    if (Lifes.Value == 0)
+                    {
+                        Log.Message("Жизни закончились");
+
+                        GameOverStatements.EnterLossState();
+                    }
                 }, delayBeforeHidingCards);
 
             delayRoutine.Start();
